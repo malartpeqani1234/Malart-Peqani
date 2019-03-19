@@ -1,0 +1,78 @@
+int maxHeight = 40;
+int minHeight = 20;
+int letterHeight = maxHeight; 
+int letterWidth = 20;          
+
+int x = -letterWidth;          
+int y = 0;                     
+
+boolean newletter;              
+
+int numChars = 26;      
+color[] colors = new color[numChars];
+
+void setup() {
+  size(640, 360);
+  noStroke();
+  colorMode(HSB, numChars);
+  background(numChars/2);
+  // Set a hue value for each key
+  for(int i = 0; i < numChars; i++) {
+    colors[i] = color(i, numChars, numChars);    
+  }
+}
+
+void draw() {
+  if(newletter == true) {
+    // Draw the "letter"
+    int y_pos;
+    if (letterHeight == maxHeight) {
+      y_pos = y;
+      rect( x, y_pos, letterWidth, letterHeight );
+    } else {
+      y_pos = y + minHeight;
+      rect( x, y_pos, letterWidth, letterHeight );
+      fill(numChars/2);
+      rect( x, y_pos-minHeight, letterWidth, letterHeight );
+    }
+    newletter = false;
+  }
+}
+
+void keyPressed()
+{
+
+  if((key >= 'A' && key <= 'Z') || (key >= 'a' && key <= 'z')) {
+    int keyIndex;
+    if(key <= 'Z') {
+      keyIndex = key-'A';
+      letterHeight = maxHeight;
+      fill(colors[keyIndex]);
+    } else {
+      keyIndex = key-'a';
+      letterHeight = minHeight;
+      fill(colors[keyIndex]);
+    }
+  } else {
+    fill(0);
+    letterHeight = 10;
+    if((key >= '0' && key <= '1') || (key >= '1' && key <= '1')) {
+        background(0);
+      
+    }
+    
+  }
+
+  newletter = true;
+
+  x = ( x + letterWidth ); 
+
+ if (x > width - letterWidth) {
+    x = 0;
+    y+= maxHeight;
+  }
+
+  if( y > height - letterHeight) {
+    y = 0;    
+  }
+}
